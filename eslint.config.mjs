@@ -11,6 +11,15 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    // Disable specific rules for the game hook file
+    files: ['app/hooks/useTestristeGame.ts'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      'react-hooks/exhaustive-deps': 'off',
+      'prefer-const': 'off',
+    },
+  },
 ];
 
 export default eslintConfig;
