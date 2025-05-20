@@ -85,6 +85,20 @@ const TestristeGame: React.FC = () => {
                 </div>
             )}
 
+            {/* Mobile Controls - Shown only on small screens */}
+            <div className={styles['mobile-controls']}>
+                <button onClick={toggleActiveBar} className={styles['control-button']}>Toggle Bar (Space)</button>
+                <button onClick={() => insertPiece(gameState.activeBar === 'answer', true)} className={styles['control-button']}>Insert Left (←)</button>
+                <button onClick={() => insertPiece(gameState.activeBar === 'answer', false)} className={styles['control-button']}>Insert Right (→)</button>
+                {/* Only show remove buttons if the active bar is the answer bar */}
+                {gameState.activeBar === 'answer' && (
+                    <>
+                        <button onClick={() => removeLetter(true)} className={styles['control-button']}>Remove Left (Backspace)</button>
+                        <button onClick={() => removeLetter(false)} className={styles['control-button']}>Remove Right (Delete)</button>
+                    </>
+                )}
+            </div>
+
             <div className={styles.controls}>
                 <div className={styles['control-group']}>
                     <h4>How to Play:</h4>
