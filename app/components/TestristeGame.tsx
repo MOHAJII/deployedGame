@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect } from 'react';
 import GamePiece from './GamePiece';
-import useTestristeGame, { MAX_ANSWER_BAR_LENGTH, MAX_TRASH_BAR_LENGTH } from '../hooks/useTestristeGame';
+import useTestristeGame, { MAX_ANSWER_BAR_LENGTH, MAX_TRASH_BAR_LENGTH, REMOVE_LETTER_COST } from '../hooks/useTestristeGame';
 import styles from '../styles/TestristeGame.module.css';
 
 const TestristeGame: React.FC = () => {
@@ -44,7 +44,7 @@ const TestristeGame: React.FC = () => {
     return (
         <div className={styles['game-container']}>
             <div className={styles['game-header']}>
-                <h1>Tetriste Educatif</h1>
+                <h1>TetristeEdu Game</h1>
                 <div className={styles.score}>Score: {gameState.score}</div>
             </div>
 
@@ -55,8 +55,8 @@ const TestristeGame: React.FC = () => {
             <div className={`${styles['game-section']} ${styles['answer-section']} ${gameState.activeBar === 'answer' ? styles['active-bar'] : ''}`}>
                 <h3>Answer Bar ({gameState.answerBar.length}/{MAX_ANSWER_BAR_LENGTH})</h3>
                 <div className={styles['game-bar']}>
-                    {gameState.answerBar.map((piece, index) => (
-                        <GamePiece key={`answer-${index}`} letter={piece.letter} color={piece.color} />
+                    {gameState.answerBar.map((piece) => (
+                        <GamePiece key={piece.id} letter={piece.letter} color={piece.color} />
                     ))}
                 </div>
             </div>
@@ -64,8 +64,8 @@ const TestristeGame: React.FC = () => {
             <div className={`${styles['game-section']} ${styles['trash-section']} ${gameState.activeBar === 'trash' ? styles['active-bar'] : ''}`}>
                 <h3>Trash Bar ({gameState.trashBar.length}/{MAX_TRASH_BAR_LENGTH})</h3>
                 <div className={styles['game-bar']}>
-                    {gameState.trashBar.map((piece, index) => (
-                        <GamePiece key={`trash-${index}`} letter={piece.letter} color={piece.color} />
+                    {gameState.trashBar.map((piece) => (
+                        <GamePiece key={piece.id} letter={piece.letter} color={piece.color} />
                     ))}
                 </div>
             </div>
@@ -87,10 +87,15 @@ const TestristeGame: React.FC = () => {
 
             <div className={styles.controls}>
                 <div className={styles['control-group']}>
-                    <h4>Controls:</h4>
-                    <p>Space - Toggle between Answer/Trash bars</p>
-                    <p>← → - Insert piece left/right</p>
-                    <p>Backspace/Delete - Remove letter from answer bar</p>
+                    <h4>How to Play:</h4>
+                    <p><strong>Space:</strong> Toggle between placing the next piece in the <strong>Answer Bar</strong> or the <strong>Trash Bar</strong>. The active bar is highlighted.</p>
+                    <p><strong>← (Left Arrow):</strong> Insert the <strong>Next Piece</strong> at the beginning (left side) of the currently <strong>Active Bar</strong>.</p>
+                    <p><strong>→ (Right Arrow):</strong> Insert the <strong>Next Piece</strong> at the end (right side) of the currently <strong>Active Bar</strong>.</p>
+                    <p><strong>Backspace (Answer Bar):</strong> Remove the leftmost letter from the <strong>Answer Bar</strong>. Costs {REMOVE_LETTER_COST} points.</p>
+                    <p><strong>Delete (Answer Bar):</strong> Remove the rightmost letter from the <strong>Answer Bar</strong>. Costs {REMOVE_LETTER_COST} points.</p>
+                    <p><strong>Goal:</strong> Fill the Answer Bar with letters to spell out the answer to the question. Correct answers clear the Answer Bar and award points.</p>
+                    <p><strong>Trash Bar:</strong> Use the Trash Bar for letters you don't need for the answer. Get points by matching 3 or more consecutive pieces of the same color.</p>
+                    <p><strong>Game Over:</strong> The game ends if either the Answer Bar ({MAX_ANSWER_BAR_LENGTH} letters) or the Trash Bar ({MAX_TRASH_BAR_LENGTH} letters) reaches its maximum capacity.</p>
                 </div>
             </div>
         </div>

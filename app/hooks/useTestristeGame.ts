@@ -26,6 +26,7 @@ const QUESTIONS = [
 ];
 
 interface GamePiece {
+    id: number;
     letter: string;
     color: string;
 }
@@ -62,7 +63,7 @@ const useTestristeGame = () => {
         }
         
         const randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
-        return { letter: letter.toLowerCase(), color: randomColor };
+        return { id: Date.now() + Math.random(), letter: letter.toLowerCase(), color: randomColor };
     }, []);
 
     // Initialize state. Random values like currentQuestion and nextPiece are null initially
