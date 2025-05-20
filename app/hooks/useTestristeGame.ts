@@ -140,14 +140,14 @@ const useTestristeGame = () => {
         }
 
         return true;
-    }, [gameState, generateRandomPiece, checkAnswer]);
+    }, [gameState, generateRandomPiece, checkAnswer, checkAndRemoveColorMatches]);
 
     const checkAndRemoveColorMatches = useCallback(() => {
         const { trashBar } = gameState;
-        let matches = [];
+        const matches = [];
         
         for (let i = 0; i < trashBar.length - 2; i++) {
-            let colorMatches = [i];
+            const colorMatches = [i];
             for (let j = i + 1; j < trashBar.length; j++) {
                 if (trashBar[j].color === trashBar[i].color) {
                     colorMatches.push(j);
@@ -161,10 +161,10 @@ const useTestristeGame = () => {
         }
 
         if (matches.length > 0) {
-            let indicesToRemove = [...new Set(matches.flat())].sort((a, b) => b - a);
+            const indicesToRemove = [...new Set(matches.flat())].sort((a, b) => b - a);
             const newTrashBar = [...trashBar];
             
-            for (let index of indicesToRemove) {
+            for (const index of indicesToRemove) {
                 newTrashBar.splice(index, 1);
             }
             
