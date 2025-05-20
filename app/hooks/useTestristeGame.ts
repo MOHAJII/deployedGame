@@ -112,36 +112,6 @@ const useTestristeGame = () => {
         return false;
     }, [gameState.answerBar, gameState.currentAnswer, setNewQuestion]);
 
-    const insertPiece = useCallback((isAnswer: boolean, isLeft: boolean) => {
-        if (gameState.isGameOver || !gameState.nextPiece) return false;
-
-        const bar = isAnswer ? gameState.answerBar : gameState.trashBar;
-        const maxLength = isAnswer ? MAX_ANSWER_BAR_LENGTH : MAX_TRASH_BAR_LENGTH;
-
-        if (bar.length >= maxLength) {
-            setGameState(prev => ({ ...prev, isGameOver: true }));
-            return false;
-        }
-
-        const newBar = isLeft 
-            ? [gameState.nextPiece, ...bar]
-            : [...bar, gameState.nextPiece];
-
-        setGameState(prev => ({
-            ...prev,
-            [isAnswer ? 'answerBar' : 'trashBar']: newBar,
-            nextPiece: generateRandomPiece(prev.currentAnswer)
-        }));
-
-        if (isAnswer) {
-            checkAnswer();
-        } else {
-            checkAndRemoveColorMatches();
-        }
-
-        return true;
-    }, [gameState, generateRandomPiece, checkAnswer, checkAndRemoveColorMatches]);
-
     const checkAndRemoveColorMatches = useCallback(() => {
         const { trashBar } = gameState;
         const matches = [];
@@ -175,6 +145,36 @@ const useTestristeGame = () => {
             }));
         }
     }, [gameState]);
+
+    const insertPiece = useCallback((isAnswer: boolean, isLeft: boolean) => {
+        if (gameState.isGameOver || !gameState.nextPiece) return false;
+
+        const bar = isAnswer ? gameState.answerBar : gameState.trashBar;
+        const maxLength = isAnswer ? MAX_ANSWER_BAR_LENGTH : MAX_TRASH_BAR_LENGTH;
+
+        if (bar.length >= maxLength) {
+            setGameState(prev => ({ ...prev, isGameOver: true }));
+            return false;
+        }
+
+        const newBar = isLeft 
+            ? [gameState.nextPiece, ...bar]
+            : [...bar, gameState.nextPiece];
+
+        setGameState(prev => ({
+            ...prev,
+            [isAnswer ? 'answerBar' : 'trashBar']: newBar,
+            nextPiece: generateRandomPiece(prev.currentAnswer)
+        }));
+
+        if (isAnswer) {
+            checkAnswer();
+        } else {
+            checkAndRemoveColorMatches();
+        }
+
+        return true;
+    }, [gameState, generateRandomPiece, checkAnswer, checkAndRemoveColorMatches]);
 
     const removeLetter = useCallback((isLeft: boolean) => {
         if (gameState.score < REMOVE_LETTER_COST || gameState.answerBar.length === 0) {
