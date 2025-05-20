@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 
 // Constants
-const COLORS = ['red', 'green', 'blue'];
-const MAX_ANSWER_BAR_LENGTH = 15;
-const MAX_TRASH_BAR_LENGTH = 10;
-const REMOVE_LETTER_COST = 50;
+export const COLORS = ['red', 'green', 'blue'];
+export const MAX_ANSWER_BAR_LENGTH = 15;
+export const MAX_TRASH_BAR_LENGTH = 10;
+export const REMOVE_LETTER_COST = 50;
 
 // Question bank
 const QUESTIONS = [

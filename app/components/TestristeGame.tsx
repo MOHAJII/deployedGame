@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect } from 'react';
 import GamePiece from './GamePiece';
-import useTestristeGame from '../hooks/useTestristeGame';
+import useTestristeGame, { MAX_ANSWER_BAR_LENGTH, MAX_TRASH_BAR_LENGTH } from '../hooks/useTestristeGame';
 import styles from '../styles/TestristeGame.module.css';
 
 const TestristeGame: React.FC = () => {
@@ -53,7 +53,7 @@ const TestristeGame: React.FC = () => {
             </div>
 
             <div className={`${styles['game-section']} ${styles['answer-section']} ${gameState.activeBar === 'answer' ? styles['active-bar'] : ''}`}>
-                <h3>Answer Bar</h3>
+                <h3>Answer Bar ({gameState.answerBar.length}/{MAX_ANSWER_BAR_LENGTH})</h3>
                 <div className={styles['game-bar']}>
                     {gameState.answerBar.map((piece, index) => (
                         <GamePiece key={`answer-${index}`} letter={piece.letter} color={piece.color} />
@@ -62,7 +62,7 @@ const TestristeGame: React.FC = () => {
             </div>
 
             <div className={`${styles['game-section']} ${styles['trash-section']} ${gameState.activeBar === 'trash' ? styles['active-bar'] : ''}`}>
-                <h3>Trash Bar</h3>
+                <h3>Trash Bar ({gameState.trashBar.length}/{MAX_TRASH_BAR_LENGTH})</h3>
                 <div className={styles['game-bar']}>
                     {gameState.trashBar.map((piece, index) => (
                         <GamePiece key={`trash-${index}`} letter={piece.letter} color={piece.color} />
