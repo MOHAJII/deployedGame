@@ -65,18 +65,29 @@ const useTestristeGame = () => {
         return { letter: letter.toLowerCase(), color: randomColor };
     }, []);
 
-    // Initialize with a random question and piece
-    const initialQuestion = getRandomQuestion();
+    // Initialize state. Random values like currentQuestion and nextPiece are null initially
+    // and will be set on the client-side in a useEffect hook.
     const [gameState, setGameState] = useState<GameState>({
         answerBar: [],
         trashBar: [],
         score: 0,
         isGameOver: false,
-        currentQuestion: initialQuestion.question,
-        currentAnswer: initialQuestion.answer,
-        nextPiece: generateRandomPiece(initialQuestion.answer),
+        currentQuestion: null, // Initialize as null
+        currentAnswer: null,   // Initialize as null
+        nextPiece: null,       // Initialize as null
         activeBar: 'answer'
     });
+
+    // Effect to initialize the first question and piece on the client side
+    useEffect(() => {
+        const initialQuestion = getRandomQuestion();
+        setGameState(prev => ({
+            ...prev,
+            currentQuestion: initialQuestion.question,
+            currentAnswer: initialQuestion.answer,
+            nextPiece: generateRandomPiece(initialQuestion.answer)
+        }));
+    }, [generateRandomPiece]); // Add generateRandomPiece as a dependency since it's used inside the effect
 
     const setNewQuestion = useCallback(() => {
         const { question, answer } = getRandomQuestion();
